@@ -3,8 +3,7 @@ name: Build LYNSER APK
 on:
   workflow_dispatch:
   push:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
   build:
@@ -19,6 +18,11 @@ jobs:
         with:
           distribution: temurin
           java-version: "17"
+
+      - name: Extract Android Project
+        run: |
+          ARCHIVE=$(find . -maxdepth 1 -name '*.zip' -print -quit)
+          unzip -o "$ARCHIVE" -d .
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
